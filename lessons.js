@@ -435,7 +435,7 @@ const quizzes = {
     question: "🧩 JavaScript ប្រើសម្រាប់អ្វី?",
     options: [
       "A. ធ្វើ Database",
-      "B. ធ្វើ Website ឱ្យមានសកម្មភាព",
+      "B. ធ្វើ Website ឱ្យមានសកម្មភាព ",
       "C. ធ្វើ Mobile App តែប៉ុណ្ណោះ",
       "D. ធ្វើ Operating System",
     ],
