@@ -435,7 +435,7 @@ const quizzes = {
     question: "🧩 JavaScript ប្រើសម្រាប់អ្វី?",
     options: [
       "A. ធ្វើ Database",
-      "B. ធ្វើ Website ឱ្យមានសកម្មភាព ✨",
+      "B. ធ្វើ Website ឱ្យមានសកម្មភាព",
       "C. ធ្វើ Mobile App តែប៉ុណ្ណោះ",
       "D. ធ្វើ Operating System",
     ],
@@ -449,7 +449,7 @@ const quizzes = {
   quiz2: {
     lessonTitle: "មេរៀនទី ២ – Variables",
     question: "🧩 ចំនួន Variable ណាមួយ *មិន* អាចប្តូរតម្លៃ?",
-    options: ["A. var", "B. let", "C. const 🔒", "D. set"],
+    options: ["A. var", "B. let", "C. const ", "D. set"],
     correct: "C",
     explanation:
       "✅ ត្រូវហើយ! `const` = constant, មិនអាចប្តូរតម្លៃបានទេ!",
@@ -459,7 +459,7 @@ const quizzes = {
   quiz3: {
     lessonTitle: "មេរៀនទី ៣ – Data Types",
     question: '🧩 `typeof "Hello"` នឹងបញ្ចេញអ្វី?',
-    options: ["A. number", 'B. "string" ✨', "C. boolean", "D. text"],
+    options: ["A. number", 'B. "string" ', "C. boolean", "D. text"],
     correct: "B",
     explanation: '✅ ត្រូវហើយ! "Hello" ជា String ដូច្នេះ typeof ត្រឡប់ "string"!',
     wrong: '❌ មិនត្រូវទេ! "Hello" ជា String, typeof ត្រឡប់ "string" (B)។',
@@ -468,7 +468,7 @@ const quizzes = {
   quiz4: {
     lessonTitle: "មេរៀនទី ៤ – Operators",
     question: "🧩 `5 === '5'` ផ្តល់លទ្ធផលអ្វី?",
-    options: ["A. true", "B. false ✨", "C. null", "D. error"],
+    options: ["A. true", "B. false ", "C. null", "D. error"],
     correct: "B",
     explanation:
       "✅ ត្រូវហើយ! `===` ពិនិត្យទាំងតម្លៃ និងប្រភេទ។ 5 (number) ≠ '5' (string)!",
@@ -479,7 +479,7 @@ const quizzes = {
   quiz5: {
     lessonTitle: "មេរៀនទី ៥ – Conditionals",
     question: "🧩 `let x = 15 > 10 ? 'ធំ' : 'តូច'` x = ?",
-    options: ["A. 15", "B. 10", "C. 'ធំ' ✨", "D. 'តូច'"],
+    options: ["A. 15", "B. 10", "C. 'ធំ' ", "D. 'តូច'"],
     correct: "C",
     explanation: "✅ ត្រូវហើយ! 15 > 10 = true, ដូច្នេះ x = 'ធំ'!",
     wrong: "❌ មិនត្រូវទេ! 15 > 10 = true, ដូច្នេះ x = 'ធំ' (C)!",
@@ -488,7 +488,7 @@ const quizzes = {
   quiz6: {
     lessonTitle: "មេរៀនទី ៦ – Loops",
     question: "🧩 `for (let i=0; i<3; i++)` loop ដំណើរការប៉ុន្មានដង?",
-    options: ["A. 2 ដង", "B. 3 ដង ✨", "C. 4 ដង", "D. 1 ដង"],
+    options: ["A. 2 ដង", "B. 3 ដង ", "C. 4 ដង", "D. 1 ដង"],
     correct: "B",
     explanation: "✅ ត្រូវហើយ! i = 0, 1, 2 (i<3) = ៣ ដង!",
     wrong: "❌ មិនត្រូវទេ! i ចាប់ពី 0 ដល់ 2 (i<3) = ៣ ដង (B)!",
@@ -500,7 +500,7 @@ const quizzes = {
     options: [
       "A. function() =>",
       "B. => function()",
-      "C. const f = () => {} ✨",
+      "C. const f = () => {} ",
       "D. def f():",
     ],
     correct: "C",
@@ -511,7 +511,7 @@ const quizzes = {
   quiz8: {
     lessonTitle: "មេរៀនទី ៨ – Arrays",
     question: "🧩 `[1,2,3].length` = ?",
-    options: ["A. 2", "B. 4", "C. 3 ✨", "D. 0"],
+    options: ["A. 2", "B. 4", "C. 3 ", "D. 0"],
     correct: "C",
     explanation: "✅ ត្រូវហើយ! Array មាន 3 ធាតុ, length = 3!",
     wrong: "❌ មិនត្រូវទេ! Array [1,2,3] មាន 3 ធាតុ, length = 3 (C)!",
@@ -520,7 +520,7 @@ const quizzes = {
   quiz9: {
     lessonTitle: "មេរៀនទី ៩ – Objects",
     question: '🧩 `let p = {name:"សុខា"}` ហើយប្រើ `p.name` = ?',
-    options: ["A. undefined", 'B. "p" ', 'C. "name"', 'D. "សុខា" ✨'],
+    options: ["A. undefined", 'B. "p" ', 'C. "name"', 'D. "សុខា" '],
     correct: "D",
     explanation: '✅ ត្រូវហើយ! p.name ចូលទៅ property "name" = "សុខា"!',
     wrong: '❌ មិនត្រូវទេ! p.name = "សុខា" ដូចជាតម្លៃ (D)!',
@@ -530,7 +530,7 @@ const quizzes = {
     lessonTitle: "ប្រលងចុងក្រោយ",
     question:
       '🏆 *ប្រលងចុងក្រោយ!*\n\nអ្វីជាលទ្ធផល?\n`let arr = [10,20,30];\nconsole.log(arr[1]);`',
-    options: ["A. 10", "B. 20 ✨", "C. 30", "D. undefined"],
+    options: ["A. 10", "B. 20 ", "C. 30", "D. undefined"],
     correct: "B",
     explanation:
       "✅ ឆ្លាតណាស់! arr[1] = 20 ព្រោះ Array ចាប់ពី index 0!\n\n🎊 *អ្នកបញ្ចប់ JavaScript Course ទាំងមូលហើយ!*\nវាយ /certificate ដើម្បីទទួល Certificate!",
