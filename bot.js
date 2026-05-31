@@ -202,9 +202,7 @@ bot.command("certificate", async (ctx) => {
     ctx,
     `🏆 *Certificate of Completion* 🏆
 
-━━━━━━━━━━━━━━━━━━━━
 🎓 *${name}*
-━━━━━━━━━━━━━━━━━━━━
 
 ✅ បានបញ្ចប់ *JavaScript Basics*
     ក្នុងភាសាខ្មែរ 🇰🇭
@@ -224,7 +222,7 @@ Arrays • Objects • DOM
 • Node.js  
 • Full-Stack Development
 
-*ขอให้โชคดี! ជោគជ័យចុះ!* 🎊`
+ជោគជ័យចុះ!* 🎊`
   );
 });
 
