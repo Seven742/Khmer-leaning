@@ -1,59 +1,45 @@
 // ===================================================
-// KHMER JAVASCRIPT TEACHING BOT 🇰🇭
+// KHMER JAVASCRIPT + REACT-EXPRESS TEACHING BOT 🇰🇭
 // Built with Telegraf for Telegram
 // ===================================================
-
-const express = require("express");
-
-const app = express();
-
-const PORT = process.env.PORT || 3000;
-
-app.get("/", (req, res) => {
-  res.send("Bot is running");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
 
 require("dotenv").config();
 const { Telegraf, Markup } = require("telegraf");
 const { lessons, quizzes } = require("./lessons");
 const {
-  getUser,
   markLessonComplete,
   recordQuizResult,
   getProgressSummary,
 } = require("./progress");
 
-// ── Validate token ──────────────────────────────────
 const TOKEN = process.env.BOT_TOKEN;
 if (!TOKEN) {
   console.error("❌  BOT_TOKEN not found in .env file!");
-  console.error("    Create a .env file with: BOT_TOKEN=your_token_here");
   process.exit(1);
 }
 
 const bot = new Telegraf(TOKEN);
-const TOTAL_LESSONS = Object.keys(lessons).length; // 10
 
-// ── Helper: send long messages safely ──────────────
+const JS_LESSONS = 10;  // Lessons 1–10  (JS Basics)
+const REACT_LESSONS = 15;  // Lessons 11–15 (React-Express)
+const TOTAL_LESSONS = REACT_LESSONS;
+
+// ── Helper ──────────────────────────────────────────
 async function sendMessage(ctx, text, extra = {}) {
   try {
     await ctx.replyWithMarkdown(text, extra);
-  } catch (e) {
-    // fallback to plain text if Markdown fails
-    await ctx.reply(text.replace(/[*_`]/g, ""), extra);
+  } catch {
+    await ctx.reply(text.replace(/[*_`[\]]/g, ""), extra);
   }
 }
 
-// ── Inline keyboard for lesson navigation ──────────
-function lessonKeyboard(lessonNum) {
+// ── Navigation keyboard for each lesson ────────────
+function lessonKeyboard(num) {
+  const quizId = `quiz${num}` in quizzes ? `quiz${num}` : "quizFinal";
   const buttons = [];
-  if (lessonNum > 1) buttons.push(Markup.button.callback("⬅️ មុន", `lesson_${lessonNum - 1}`));
-  buttons.push(Markup.button.callback("📝 ប្រលង", `quiz_${quizzes[`quiz${lessonNum}`] ? `quiz${lessonNum}` : "quizFinal"}`));
-  if (lessonNum < TOTAL_LESSONS) buttons.push(Markup.button.callback("បន្ត ➡️", `lesson_${lessonNum + 1}`));
+  if (num > 1) buttons.push(Markup.button.callback("⬅️ មុន", `lesson_${num - 1}`));
+  buttons.push(Markup.button.callback("📝 ប្រលង", `quiz_${quizId}`));
+  if (num < TOTAL_LESSONS) buttons.push(Markup.button.callback("បន្ត ➡️", `lesson_${num + 1}`));
   return Markup.inlineKeyboard([buttons]);
 }
 
@@ -73,27 +59,25 @@ function quizKeyboard(quizId) {
 // ═══════════════════════════════════════════════════
 bot.start(async (ctx) => {
   const name = ctx.from.first_name || "បន្ទុក";
-  await sendMessage(
-    ctx,
-    `🇰🇭 *សួស្តី ${name}! ស្វាគមន៍មកកាន់ JS Bot!*
+  await sendMessage(ctx,
+    `🇰🇭 *សួស្តី ${name}! ស្វាគមន៍មកកាន់ Khmer Learning!*
 
-🎓 *ខ្ញុំនឹងបង្រៀន JavaScript ជាភាសាខ្មែរ!*
+🎓 *រៀន JavaScript + React-Express ជាភាសាខ្មែរ!*
 
-📚 *មេរៀន ១០ ជំហាន:*
-• Variables & Data Types
-• Operators & Conditions
-• Loops & Functions
-• Arrays & Objects
-• DOM Manipulation
+📚 *Course ២ កម្រិត:*
 
-🚀 *ចាប់ផ្តើមមើលម៉េច:*
-👉 វាយ /lesson1 ដើម្បីចាប់ផ្តើម!
+🟡 *JS Basics (Lesson 1–10):*
+Variables • Types • Loops • Functions • DOM
 
-📌 *Commands:*
-/lesson1 ✦ /lesson2 ✦ ... ✦ /lesson10
-/quiz ✦ /progress ✦ /help`,
+🔵 *React-Express (Lesson 11–15):*
+React ↔ Express • HTTP • GET/POST • Errors
+
+🚀 *ចាប់ផ្តើម:* /lesson1
+📋 *Commands:* /help
+📊 *Progress:* /progress`,
     Markup.inlineKeyboard([
-      [Markup.button.callback("🚀 ចាប់ផ្តើម Lesson 1", "lesson_1")],
+      [Markup.button.callback("🚀 ចាប់ផ្តើម JS Basics", "lesson_1")],
+      [Markup.button.callback("🔵 React-Express Course", "lesson_11")],
       [Markup.button.callback("📊 ពិនិត្យ Progress", "check_progress")],
     ])
   );
@@ -103,35 +87,28 @@ bot.start(async (ctx) => {
 // /help
 // ═══════════════════════════════════════════════════
 bot.help(async (ctx) => {
-  await sendMessage(
-    ctx,
+  await sendMessage(ctx,
     `📋 *Commands ទាំងអស់:*
 
-📘 *មេរៀន:*
-/lesson1 → Variables
-/lesson2 → Data Types  
-/lesson3 → Operators
-/lesson4 → Conditionals
-/lesson5 → Loops
-/lesson6 → Functions
-/lesson7 → Arrays
-/lesson8 → Objects
-/lesson9 → DOM Basics
-/lesson10 → DOM Events
+🟡 *JS Basics:*
+/lesson1 – /lesson10
 
-📝 *ប្រលង:*
-/quiz1 ... /quiz9 → ប្រលងតាមមេរៀន
-/quiz → ប្រលងចុងក្រោយ
+🔵 *React-Express:*
+/lesson11 – /lesson15
+
+📝 *Quizzes:*
+/quiz1 – /quiz15
+/quiz → ប្រលង JS Basics
 
 📊 *ផ្សេងទៀត:*
 /progress → ពិនិត្យការសិក្សា
-/certificate → Certificate (បន្ទាប់ 10 មេរៀន)
+/certificate → Certificate
 /start → ចាប់ផ្តើមឡើងវិញ`
   );
 });
 
 // ═══════════════════════════════════════════════════
-// /lesson{N} — Dynamic lesson handler
+// /lesson{N} — 1 to 15
 // ═══════════════════════════════════════════════════
 for (let i = 1; i <= TOTAL_LESSONS; i++) {
   bot.command(`lesson${i}`, async (ctx) => {
@@ -143,21 +120,17 @@ for (let i = 1; i <= TOTAL_LESSONS; i++) {
 }
 
 // ═══════════════════════════════════════════════════
-// /quiz{N} — Per-lesson quiz
+// /quiz{N} and /quiz
 // ═══════════════════════════════════════════════════
 for (let i = 1; i <= TOTAL_LESSONS; i++) {
-  const quizId = i < TOTAL_LESSONS ? `quiz${i}` : "quizFinal";
-  bot.command(`quiz${i}`, async (ctx) => sendQuiz(ctx, quizId));
+  bot.command(`quiz${i}`, async (ctx) => sendQuiz(ctx, `quiz${i}`));
 }
-
-// /quiz → final quiz
 bot.command("quiz", async (ctx) => sendQuiz(ctx, "quizFinal"));
 
 async function sendQuiz(ctx, quizId) {
   const quiz = quizzes[quizId];
   if (!quiz) return ctx.reply("❌ មិនរកឃើញប្រលង!");
-  await sendMessage(
-    ctx,
+  await sendMessage(ctx,
     `📝 *ប្រលង – ${quiz.lessonTitle}*\n\n${quiz.question}`,
     quizKeyboard(quizId)
   );
@@ -172,29 +145,34 @@ async function showProgress(ctx) {
   const p = getProgressSummary(ctx.from.id);
   const name = ctx.from.first_name || "សិស្ស";
 
-  let completedStr =
-    p.completedLessons.length > 0
-      ? p.completedLessons.map((n) => `✅ Lesson ${n}`).join(" | ")
-      : "⚠️ មិនទាន់សិក្សាមេរៀនណាមួយ";
+  const jsCount = p.completedLessons.filter(n => n <= JS_LESSONS).length;
+  const reactCount = p.completedLessons.filter(n => n > JS_LESSONS).length;
 
-  await sendMessage(
-    ctx,
+  const doneStr = p.completedLessons.length > 0
+    ? p.completedLessons.map(n => `✅ L${n}`).join(" ")
+    : "⚠️ មិនទាន់សិក្សា";
+
+  const nextLesson = p.done < TOTAL_LESSONS ? p.done + 1 : null;
+
+  await sendMessage(ctx,
     `📊 *Progress របស់ ${name}:*
 
 ${p.bar} ${p.percent}%
-📚 មេរៀនបានសិក្សា: *${p.done}/${p.total}*
+📚 *${p.done}/${TOTAL_LESSONS}* មេរៀន
 
-${completedStr}
+🟡 JS Basics: ${jsCount}/${JS_LESSONS}
+🔵 React-Express: ${reactCount}/${REACT_LESSONS - JS_LESSONS}
 
-📝 ចំនួនប្រលង: ${p.totalQuizzes}
-✅ ឆ្លើយត្រូវ: ${p.correctAnswers} (${p.accuracy}%)
+${doneStr}
 
-${p.percent === 100 ? "🎊 *អ្នកបញ្ចប់ Course ទាំងមូលហើយ!* វាយ /certificate!" : `👉 បន្ទាប់: /lesson${p.done + 1}`}`,
-    Markup.inlineKeyboard([
-      p.done < TOTAL_LESSONS
-        ? [Markup.button.callback(`▶️ Lesson ${p.done + 1}`, `lesson_${p.done + 1}`)]
-        : [Markup.button.callback("🏆 Certificate", "get_certificate")],
-    ])
+📝 ប្រលង: ${p.totalQuizzes} | ✅ ត្រូវ: ${p.accuracy}%
+
+${p.percent === 100
+      ? "🎊 *Course ទាំងមូល Complete!* វាយ /certificate!"
+      : `👉 បន្ទាប់: /lesson${nextLesson}`}`,
+    nextLesson
+      ? Markup.inlineKeyboard([[Markup.button.callback(`▶️ Lesson ${nextLesson}`, `lesson_${nextLesson}`)]])
+      : Markup.inlineKeyboard([[Markup.button.callback("🏆 Certificate", "get_certificate")]])
   );
 }
 
@@ -205,46 +183,39 @@ bot.command("certificate", async (ctx) => {
   const p = getProgressSummary(ctx.from.id);
   const name = ctx.from.first_name || "សិស្ស";
 
-  if (p.done < TOTAL_LESSONS) {
-    return sendMessage(
-      ctx,
-      `⚠️ *អ្នកមិនទាន់បញ្ចប់ Course!*\n\nបានបញ្ចប់: ${p.done}/${p.total} មេរៀន\nត្រូវការ: ${TOTAL_LESSONS - p.done} មេរៀនទៀត\n\n👉 /lesson${p.done + 1}`
+  if (p.done < JS_LESSONS) {
+    return sendMessage(ctx,
+      `⚠️ *បញ្ចប់ JS Basics មុន!*\nបាន: ${p.done}/${JS_LESSONS}\n👉 /lesson${p.done + 1}`
     );
   }
 
-  await sendMessage(
-    ctx,
+  const hasReact = p.done >= TOTAL_LESSONS;
+
+  await sendMessage(ctx,
     `🏆 *Certificate of Completion* 🏆
 
+━━━━━━━━━━━━━━━━━━━━
 🎓 *${name}*
+━━━━━━━━━━━━━━━━━━━━
 
-✅ បានបញ្ចប់ *JavaScript Basics*
-    ក្នុងភាសាខ្មែរ 🇰🇭
+✅ *JavaScript Basics* (10 មេរៀន)${hasReact ? "\n✅ *React ↔ Express* (5 មេរៀន)" : ""}
 
-📚 ១០ មេរៀន ✓
-📝 ប្រលង: ${p.accuracy}% ត្រូវ
-
-🌟 *ស្នាដៃ:*
-Variables • Data Types • Operators
-Conditionals • Loops • Functions
-Arrays • Objects • DOM
-
+📝 ប្រលង Accuracy: ${p.accuracy}%
 📅 ${new Date().toLocaleDateString("km-KH")}
 
-🚀 *ជំហានបន្ទាប់:*
-• React.js
-• Node.js  
-• Full-Stack Development
+🌟 *ជំនាញ:*
+Variables • Types • Loops • Functions
+Arrays • Objects • DOM${hasReact ? "\nReact • Express • HTTP • API • Errors" : ""}
 
-ជោគជ័យចុះ!* 🎊`
+🚀 *ជំហានបន្ទាប់:*${hasReact ? "\n• Node.js Advanced\n• MongoDB\n• Full-Stack Project" : "\n• React.js → /lesson11\n• Node.js\n• Full-Stack"}
+
+*ជោគជ័យចុះ! 🎊*`
   );
 });
 
 // ═══════════════════════════════════════════════════
-// Inline button callbacks
+// Inline callbacks
 // ═══════════════════════════════════════════════════
-
-// lesson_{N} button
 bot.action(/^lesson_(\d+)$/, async (ctx) => {
   const num = parseInt(ctx.match[1]);
   const lesson = lessons[num];
@@ -254,54 +225,43 @@ bot.action(/^lesson_(\d+)$/, async (ctx) => {
   await sendMessage(ctx, lesson.content, lessonKeyboard(num));
 });
 
-// quiz_{quizId} button
 bot.action(/^quiz_(.+)$/, async (ctx) => {
-  const quizId = ctx.match[1];
   await ctx.answerCbQuery();
-  await sendQuiz(ctx, quizId);
+  await sendQuiz(ctx, ctx.match[1]);
 });
 
-// answer_{quizId}_{letter}
 bot.action(/^answer_(.+)_([A-D])$/, async (ctx) => {
   const quizId = ctx.match[1];
   const answer = ctx.match[2];
   const quiz = quizzes[quizId];
-
   if (!quiz) return ctx.answerCbQuery("❌ Error");
 
   const isCorrect = answer === quiz.correct;
   recordQuizResult(ctx.from.id, quizId, isCorrect);
-
   await ctx.answerCbQuery(isCorrect ? "✅ ត្រូវ!" : "❌ មិនត្រូវ!");
 
-  const responseText = isCorrect ? quiz.explanation : quiz.wrong;
-
-  // Find lesson number for "next lesson" button
-  const lessonNum = quizId === "quizFinal" ? 10 : parseInt(quizId.replace("quiz", ""));
-  const nextLesson = lessonNum + 1;
+  const lessonNum = quizId === "quizFinal" ? JS_LESSONS
+    : parseInt(quizId.replace("quiz", "")) || JS_LESSONS;
+  const nextLesson = lessonNum < TOTAL_LESSONS ? lessonNum + 1 : null;
 
   const buttons = [];
-  if (!isCorrect) {
-    buttons.push([Markup.button.callback("🔄 ព្យាយាមមើលទៀត", `quiz_${quizId}`)]);
-  }
-  if (nextLesson <= TOTAL_LESSONS && isCorrect) {
-    buttons.push([Markup.button.callback(`▶️ Lesson ${nextLesson}`, `lesson_${nextLesson}`)]);
-  }
+  if (!isCorrect) buttons.push([Markup.button.callback("🔄 ព្យាយាមមើលទៀត", `quiz_${quizId}`)]);
+  if (nextLesson && isCorrect) buttons.push([Markup.button.callback(`▶️ Lesson ${nextLesson}`, `lesson_${nextLesson}`)]);
   buttons.push([Markup.button.callback("📊 Progress", "check_progress")]);
 
-  await sendMessage(ctx, responseText, Markup.inlineKeyboard(buttons));
+  await sendMessage(ctx,
+    isCorrect ? quiz.explanation : quiz.wrong,
+    Markup.inlineKeyboard(buttons)
+  );
 });
 
-// check_progress button
 bot.action("check_progress", async (ctx) => {
   await ctx.answerCbQuery();
   await showProgress(ctx);
 });
 
-// get_certificate button
 bot.action("get_certificate", async (ctx) => {
   await ctx.answerCbQuery();
-  ctx.message = ctx.callbackQuery.message; // fake message context
   await bot.handleUpdate({
     ...ctx.update,
     message: { ...ctx.callbackQuery.message, text: "/certificate" },
@@ -309,55 +269,45 @@ bot.action("get_certificate", async (ctx) => {
 });
 
 // ═══════════════════════════════════════════════════
-// Catch-all for unknown messages
+// Catch-all text
 // ═══════════════════════════════════════════════════
 bot.on("text", async (ctx) => {
-  const text = ctx.message.text.toLowerCase().trim();
+  const text = ctx.message.text.trim();
 
-  // Handle number inputs (1-10 → lesson)
-  const numMatch = text.match(/^(\d{1,2})$/);
-  if (numMatch) {
-    const n = parseInt(numMatch[1]);
-    if (n >= 1 && n <= TOTAL_LESSONS) {
-      const lesson = lessons[n];
+  // Number shortcut 1–15
+  const n = parseInt(text);
+  if (!isNaN(n) && n >= 1 && n <= TOTAL_LESSONS) {
+    const lesson = lessons[n];
+    if (lesson) {
       markLessonComplete(ctx.from.id, n);
       return sendMessage(ctx, lesson.content, lessonKeyboard(n));
     }
   }
 
-  await sendMessage(
-    ctx,
-    `🤔 ខ្ញុំមិនយល់ command នោះទេ!\n\nប្រើ /help ដើម្បីមើល commands\nឬ /lesson1 ដើម្បីចាប់ផ្តើម!`,
+  await sendMessage(ctx,
+    `🤔 ខ្ញុំមិនយល់ command នោះទេ!\nប្រើ /help ឬ /lesson1 ចាប់ផ្តើម!`,
     Markup.inlineKeyboard([
-      [Markup.button.callback("🚀 Lesson 1", "lesson_1"), Markup.button.callback("📋 Help", "show_help")],
+      [Markup.button.callback("🚀 Lesson 1", "lesson_1"),
+      Markup.button.callback("🔵 React L11", "lesson_11")],
     ])
   );
 });
 
-bot.action("show_help", async (ctx) => {
-  await ctx.answerCbQuery();
-  ctx.reply(
-    "📋 Commands: /lesson1–/lesson10 | /quiz1–/quiz10 | /quiz | /progress | /certificate | /help"
-  );
-});
-
 // ═══════════════════════════════════════════════════
-// Launch bot
+// Launch
 // ═══════════════════════════════════════════════════
-bot.launch({
-  allowedUpdates: ["message", "callback_query"],
-}).then(() => {
+bot.launch({ allowedUpdates: ["message", "callback_query"] }).then(() => {
   console.log("🤖 ===================================");
-  console.log("🇰🇭  Khmer JavaScript Bot is RUNNING!");
+  console.log("🇰🇭  Khmer JS + React-Express Bot RUNNING!");
   console.log("🤖 ===================================");
-  console.log(`📚 Total lessons: ${TOTAL_LESSONS}`);
+  console.log(`📚 JS Basics:     Lessons 1–${JS_LESSONS}`);
+  console.log(`🔵 React-Express: Lessons 11–${TOTAL_LESSONS}`);
   console.log(`📝 Total quizzes: ${Object.keys(quizzes).length}`);
-  console.log("✅ Bot started successfully!\n");
+  console.log("✅ Ready!\n");
 }).catch((err) => {
-  console.error("❌ Failed to launch bot:", err.message);
+  console.error("❌ Failed to launch:", err.message);
   process.exit(1);
 });
 
-// Graceful shutdown
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
