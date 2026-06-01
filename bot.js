@@ -3,6 +3,20 @@
 // Built with Telegraf for Telegram
 // ===================================================
 
+const express = require("express");
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Bot is running");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
+
 require("dotenv").config();
 const { Telegraf, Markup } = require("telegraf");
 const { lessons, quizzes } = require("./lessons");
