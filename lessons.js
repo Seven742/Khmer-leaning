@@ -714,15 +714,35 @@ const quizzes = {
   quiz9: {
     lessonTitle: "មេរៀនទី ៩ – Objects",
     question: '🧩 `let p = {name:"សុខា"}` ហើយ `p.name` = ?',
-    options: ["A. undefined", 'B. "p"', 'C. "name"', 'D. "សុខា" '],
+    options: ["A. undefined", 'B. "p"', 'C. "name"', 'D. "សុខា" ✨'],
     correct: "D",
     explanation: '✅ ត្រូវហើយ! p.name = "សុខា"!',
     wrong: '❌ មិនត្រូវទេ! p.name = "សុខា" (D)!',
   },
+  quiz10: {
+    lessonTitle: "មេរៀនទី ១០ – DOM Manipulation",
+    question: `🧩 *Code ខាងក្រោមធ្វើអ្វី?*
+
+\`\`\`javascript
+document.querySelector("#btn")
+  .addEventListener("click", () => {
+    document.querySelector("h1").style.color = "red";
+  });
+\`\`\``,
+    options: [
+      "A. ផ្លាស់ h1 ទៅ font-size: red",
+      "B. ពេលចុច #btn → h1 color ក្លាយជាក្រហម ",
+      "C. ចុច h1 → #btn ក្លាយជាក្រហម",
+      "D. Error ព្រោះ style.color មិនមាន",
+    ],
+    correct: "B",
+    explanation: "✅ ត្រូវ! addEventListener('click') = ទន្ទឹង click លើ #btn → style.color = 'red' ផ្លាស់ h1 ឱ្យក្រហម!",
+    wrong: "❌ addEventListener('click') = ពេលចុច #btn → h1.style.color = 'red' (B)!",
+  },
   quizFinal: {
     lessonTitle: "ប្រលងចុងក្រោយ JS Basics",
     question: '🏆 *ប្រលង JS Basics!*\n\n`let arr = [10,20,30];\nconsole.log(arr[1]);`\nលទ្ធផល?',
-    options: ["A. 10", "B. 20 ", "C. 30", "D. undefined"],
+    options: ["A. 10", "B. 20 ✨", "C. 30", "D. undefined"],
     correct: "B",
     explanation: "✅ arr[1] = 20! Array ចាប់ពី index 0!\n\n🎊 *JS Basics Complete!*\nចុច /lesson11 ដើម្បីរៀន React-Express!",
     wrong: "❌ arr[1] = 20 (B)! index: arr[0]=10, arr[1]=20, arr[2]=30",
@@ -744,7 +764,7 @@ const quizzes = {
   quiz12: {
     lessonTitle: "មេរៀនទី ១២ – HTTP Methods",
     question: "🧩 ប្រើ HTTP Method ណា ដើម្បី *បង្កើត* user ថ្មី?",
-    options: ["A. GET", "B. DELETE", "C. POST ", "D. READ"],
+    options: ["A. GET", "B. DELETE", "C. POST ✨", "D. READ"],
     correct: "C",
     explanation: "✅ ត្រូវ! POST ប្រើដើម្បីបង្កើតទិន្នន័យថ្មី!",
     wrong: "❌ មិនត្រូវ! POST ទើបប្រើដើម្បី CREATE (C)!",
@@ -767,7 +787,7 @@ const quizzes = {
     question: "🧩 Express ត្រូវការ middleware ណា ដើម្បីអាន JSON body?",
     options: [
       "A. app.use(cors())",
-      "B. app.use(express.json()) ",
+      "B. app.use(express.json()) ✨",
       "C. app.use(bodyText())",
       "D. app.use(readJSON())",
     ],
@@ -789,5 +809,688 @@ const quizzes = {
     wrong: "❌ 404 = Not Found (C). 200=OK, 201=Created, 500=Server Error!",
   },
 };
+
+// ══════════════════════════════════════════════════
+// JQUERY LESSONS 16–22  (added to lessons object)
+// ══════════════════════════════════════════════════
+Object.assign(lessons, {
+  16: {
+    title: "មេរៀនទី ១៦ – jQuery គឺជាអ្វី?",
+    content: `
+📗 *មេរៀនទី ១៦ – jQuery គឺជាអ្វី?*
+
+jQuery គឺជា JavaScript Library ដែលធ្វើឱ្យ code ខ្លីជាង និងងាយស្រួលជាង។
+
+⚡ *ហេតុអ្វី jQuery?*
+\`\`\`javascript
+// ❌ JavaScript ធម្មតា (វែង)
+document.getElementById("btn")
+  .addEventListener("click", function() {
+    document.getElementById("box")
+      .style.display = "none";
+  });
+
+// ✅ jQuery (ខ្លី & ស្អាត)
+$("#btn").click(function() {
+  $("#box").hide();
+});
+\`\`\`
+
+📥 *ដំឡើង jQuery ២ វិធី:*
+
+*វិធីទី ១ – CDN (ងាយបំផុត):*
+\`\`\`html
+<script src="https://code.jquery.com/
+jquery-3.7.1.min.js"></script>
+\`\`\`
+
+*វិធីទី ២ – npm:*
+\`\`\`bash
+npm install jquery
+\`\`\`
+
+🔑 *\$ = jQuery*
+\`\`\`javascript
+// ២ ways ដូចគ្នា
+jQuery("p").hide();
+$("p").hide();      // ✅ ខ្លីជាង
+\`\`\`
+
+⚠️ *រង់ចាំ DOM load ជាមុន!*
+\`\`\`javascript
+$(document).ready(function() {
+  // code ទាំងអស់ដាក់ក្នុងនេះ!
+  console.log("DOM ready! ✅");
+});
+
+// ឬខ្លីជាង:
+$(function() {
+  console.log("Ready! ✅");
+});
+\`\`\`
+
+👉 /lesson17 ដើម្បីបន្ត ឬ /quiz16 ប្រលង
+    `,
+    quiz: "quiz16",
+  },
+
+  17: {
+    title: "មេរៀនទី ១៧ – jQuery Selectors & DOM",
+    content: `
+📗 *មេរៀនទី ១៧ – jQuery Selectors & DOM*
+
+jQuery Selectors ប្រើ CSS syntax ដើម្បីជ្រើស elements។
+
+🎯 *Selectors ចំបង:*
+\`\`\`javascript
+$("p")          // ជ្រើស <p> ទាំងអស់
+$("#myId")      // ជ្រើស id="myId"
+$(".myClass")   // ជ្រើស class="myClass"
+$("ul li")      // ជ្រើស li នៅក្នុង ul
+$("input[type='text']") // ជ្រើស input text
+$("p:first")    // p ទីមួយ
+$("tr:even")    // rows គូ (0,2,4...)
+\`\`\`
+
+✏️ *ផ្លាស់ប្តូរ Content & CSS:*
+\`\`\`javascript
+// ផ្លាស់ប្តូរ text
+$("#title").text("ចំណងជើងថ្មី");
+
+// ផ្លាស់ប្តូរ HTML
+$("#box").html("<b>ជាអក្សរដិត</b>");
+
+// ផ្លាស់ប្តូរ CSS
+$("p").css("color", "red");
+$("p").css({
+  "color": "blue",
+  "font-size": "18px"
+});
+
+// Add/Remove Class
+$("div").addClass("active");
+$("div").removeClass("active");
+$("div").toggleClass("active"); // toggle!
+\`\`\`
+
+🔍 *ទាញ & ដាក់ Value:*
+\`\`\`javascript
+// Input value
+let val = $("#myInput").val();      // ទាញ
+$("#myInput").val("ខ្មែរ");        // ដាក់
+
+// Attribute
+let src = $("img").attr("src");     // ទាញ
+$("img").attr("src", "new.jpg");    // ដាក់
+\`\`\`
+
+💡 *jQuery ប្រើ Chaining:*
+\`\`\`javascript
+// ធ្វើច្រើនការក្នុងបន្ទាត់តែមួយ!
+$("#box")
+  .css("color", "red")
+  .addClass("bold")
+  .text("ខ្មែរ!")
+  .show();
+\`\`\`
+
+👉 /lesson18 ដើម្បីបន្ត ឬ /quiz17 ប្រលង
+    `,
+    quiz: "quiz17",
+  },
+
+  18: {
+    title: "មេរៀនទី ១៨ – jQuery Events",
+    content: `
+📗 *មេរៀនទី ១៨ – jQuery Events*
+
+Events = ការឆ្លើយតបនឹងការប្រើប្រាស់ (click, hover, key...)
+
+🖱️ *Mouse Events:*
+\`\`\`javascript
+// Click
+$("#btn").click(function() {
+  alert("ចុចហើយ! 🎉");
+});
+
+// Double click
+$("#btn").dblclick(function() {
+  $(this).css("background", "yellow");
+});
+
+// Hover (mouse in / mouse out)
+$("#box").hover(
+  function() { $(this).css("opacity", "0.5"); },
+  function() { $(this).css("opacity", "1"); }
+);
+
+// Mouse enter / leave
+$("#menu").mouseenter(function() {
+  $(this).addClass("open");
+});
+\`\`\`
+
+⌨️ *Keyboard Events:*
+\`\`\`javascript
+$("#search").keyup(function() {
+  let text = $(this).val();
+  $("#result").text("អ្នកវាយ: " + text);
+});
+
+$(document).keydown(function(e) {
+  if (e.key === "Enter") {
+    alert("Enter ចុច!");
+  }
+});
+\`\`\`
+
+📝 *Form Events:*
+\`\`\`javascript
+// Submit form
+$("form").submit(function(e) {
+  e.preventDefault(); // បញ្ឈប់ reload
+  let name = $("#name").val();
+  if (!name) {
+    alert("⚠️ បំពេញឈ្មោះ!");
+    return;
+  }
+  console.log("ផ្ញើ: " + name);
+});
+
+// Change (select/radio/checkbox)
+$("select").change(function() {
+  let selected = $(this).val();
+  console.log("ជ្រើស: " + selected);
+});
+\`\`\`
+
+🔗 *on() – Best Practice:*
+\`\`\`javascript
+// ✅ ល្អបំផុត ប្រើ .on()
+$(document).on("click", "#btn", function() {
+  console.log("ចុច!");
+});
+// ដំណើរការ dynamic elements ផងដែរ!
+\`\`\`
+
+👉 /lesson19 ដើម្បីបន្ត ឬ /quiz18 ប្រលង
+    `,
+    quiz: "quiz18",
+  },
+
+  19: {
+    title: "មេរៀនទី ១៩ – jQuery Effects & Animation",
+    content: `
+📗 *មេរៀនទី ១៩ – jQuery Effects & Animation*
+
+jQuery មាន effects built-in ជាច្រើន!
+
+👁️ *Show / Hide:*
+\`\`\`javascript
+$("#box").hide();          // លាក់ភ្លាម
+$("#box").show();          // បង្ហាញភ្លាម
+$("#box").toggle();        // toggle hide/show
+
+// មាន speed: "slow" "fast" ឬ ms
+$("#box").hide("slow");
+$("#box").show(500);       // 500ms
+$("#box").toggle("fast");
+\`\`\`
+
+🎭 *Fade:*
+\`\`\`javascript
+$("#box").fadeOut();       // fade ចេញ
+$("#box").fadeIn();        // fade ចូល
+$("#box").fadeToggle();    // toggle fade
+$("#box").fadeTo(1000, 0.3); // fade ទៅ 30%
+\`\`\`
+
+📐 *Slide:*
+\`\`\`javascript
+$("#menu").slideDown();    // slide ចុះ
+$("#menu").slideUp();      // slide ឡើង
+$("#menu").slideToggle();  // toggle slide
+
+// Accordion example
+$(".title").click(function() {
+  $(this).next(".content").slideToggle();
+});
+\`\`\`
+
+🎨 *animate() – Custom Animation:*
+\`\`\`javascript
+// ផ្លាស់ប្តូរ CSS properties ជាមួយ animation
+$("#box").animate({
+  width: "300px",
+  height: "200px",
+  opacity: 0.5
+}, 1000); // 1000ms = 1 second
+
+// Chaining animations
+$("#ball")
+  .animate({ left: "200px" }, 500)
+  .animate({ top: "100px" }, 500)
+  .animate({ opacity: 0 }, 300);
+\`\`\`
+
+⏹️ *stop() & delay():*
+\`\`\`javascript
+$("#box").delay(500).fadeIn(1000);
+$("#box").stop();          // បញ្ឈប់ animation
+$("#box").stop(true, true); // បញ្ឈប់ & ទៅចុងក្រោយ
+\`\`\`
+
+👉 /lesson20 ដើម្បីបន្ត ឬ /quiz19 ប្រលង
+    `,
+    quiz: "quiz19",
+  },
+
+  20: {
+    title: "មេរៀនទី ២០ – jQuery AJAX",
+    content: `
+📗 *មេរៀនទី ២០ – jQuery AJAX*
+
+AJAX = Asynchronous JavaScript And XML
+ទាញ/ផ្ញើទិន្នន័យ ដោយ *មិន reload page*!
+
+🚀 *$.ajax() – Full Control:*
+\`\`\`javascript
+$.ajax({
+  url: "https://api.example.com/users",
+  method: "GET",
+  success: function(data) {
+    console.log("ទទួលបាន:", data);
+    data.forEach(function(user) {
+      $("#list").append(
+        "<li>" + user.name + "</li>"
+      );
+    });
+  },
+  error: function(err) {
+    console.log("Error:", err.status);
+  }
+});
+\`\`\`
+
+⚡ *$.get() & $.post() – ខ្លី:*
+\`\`\`javascript
+// GET request
+$.get("/api/users", function(data) {
+  console.log(data);
+});
+
+// POST request
+$.post("/api/users",
+  { name: "សុខា", age: 22 },
+  function(response) {
+    alert(response.message);
+  }
+);
+\`\`\`
+
+🔄 *$.getJSON() – JSON ជាក់លាក់:*
+\`\`\`javascript
+$.getJSON("https://api.github.com/users/octocat",
+  function(user) {
+    $("#name").text(user.name);
+    $("#bio").text(user.bio);
+  }
+);
+\`\`\`
+
+📡 *Real Example – Load Products:*
+\`\`\`javascript
+$(function() {
+  $.get("/api/products", function(products) {
+    let html = "";
+    $.each(products, function(i, p) {
+      html += \`<div class="card">
+        <h3>\${p.name}</h3>
+        <p>$\${p.price}</p>
+      </div>\`;
+    });
+    $("#products").html(html);
+  });
+
+  // Loading state
+  $(document).ajaxStart(function() {
+    $("#loader").show();
+  }).ajaxStop(function() {
+    $("#loader").hide();
+  });
+});
+\`\`\`
+
+👉 /lesson21 ដើម្បីបន្ត ឬ /quiz20 ប្រលង
+    `,
+    quiz: "quiz20",
+  },
+
+  21: {
+    title: "មេរៀនទី ២១ – jQuery DOM Manipulation Advanced",
+    content: `
+📗 *មេរៀនទី ២១ – jQuery DOM Manipulation*
+
+🏗️ *បន្ថែម & លុប Elements:*
+\`\`\`javascript
+// បន្ថែម HTML
+$("#list").append("<li>ធាតុថ្មី</li>");   // ចុងក្រោយ
+$("#list").prepend("<li>ធាតុមុខ</li>");  // ខាងមុខ
+$("#list").after("<p>ក្រោយ list</p>");   // ក្រោម
+$("#list").before("<p>លើ list</p>");     // លើ
+
+// លុប
+$(".item").remove();           // លុបទាំង element
+$(".item").empty();            // លុបត្រឹមខាងក្នុង
+
+// Clone
+let copy = $("#card").clone();
+$("#container").append(copy);
+\`\`\`
+
+🔄 *Traversal – រុករក DOM:*
+\`\`\`javascript
+// ឡើងលើ
+$("li").parent();          // parent ដោយផ្ទាល់
+$("li").parents("ul");     // ancestors ទាំងអស់
+$("li").closest(".box");   // ancestor ដំបូងគេ
+
+// ចុះក្រោម
+$("ul").children();        // children ដោយផ្ទាល់
+$("ul").find("li.active"); // find ក្នុងៗ
+
+// ជិតខាង (siblings)
+$("li").next();            // ធាតុបន្ទាប់
+$("li").prev();            // ធាតុមុន
+$("li").siblings();        // siblings ទាំងអស់
+\`\`\`
+
+🎯 *Filtering:*
+\`\`\`javascript
+$("li").filter(".active")      // filter ជ្រើស
+$("li").not(".disabled")       // filter ដក
+$("li").first()                // ទីមួយ
+$("li").last()                 // ចុងក្រោយ
+$("li").eq(2)                  // index ទី ២
+
+// each() – loop jQuery elements
+$("li").each(function(index) {
+  console.log(index + ": " + $(this).text());
+});
+\`\`\`
+
+📊 *Practical: Dynamic Table:*
+\`\`\`javascript
+let students = [
+  {name: "សុខា", score: 85},
+  {name: "ដារា", score: 92},
+  {name: "ចន្ទ", score: 78}
+];
+
+$.each(students, function(i, s) {
+  let row = $("<tr>").append(
+    $("<td>").text(s.name),
+    $("<td>").text(s.score),
+    $("<td>").text(s.score >= 80 ? "✅" : "❌")
+  );
+  $("#table tbody").append(row);
+});
+\`\`\`
+
+👉 /lesson22 ដើម្បីបន្ត ឬ /quiz21 ប្រលង
+    `,
+    quiz: "quiz21",
+  },
+
+  22: {
+    title: "មេរៀនទី ២២ – jQuery Plugins & Best Practices",
+    content: `
+📗 *មេរៀនទី ២២ – jQuery Plugins & Best Practices*
+
+🔌 *Popular jQuery Plugins:*
+
+*1. Select2 – Dropdown ស្អាត:*
+\`\`\`html
+<link rel="stylesheet" href="select2.min.css">
+<script src="select2.min.js"></script>
+\`\`\`
+\`\`\`javascript
+$('#mySelect').select2({
+  placeholder: "ជ្រើសរើស...",
+  allowClear: true
+});
+\`\`\`
+
+*2. DataTables – Table ស្ទាប:*
+\`\`\`javascript
+$('#myTable').DataTable({
+  language: {
+    search: "ស្វែងរក:",
+    lengthMenu: "បង្ហាញ _MENU_ ជួរ",
+    info: "ទំព័រ _PAGE_ នៃ _PAGES_"
+  }
+});
+\`\`\`
+
+*3. SweetAlert2 – Alert ស្អាត:*
+\`\`\`javascript
+// ជំនួស alert() ធម្មតា
+Swal.fire({
+  title: "ជោគជ័យ!",
+  text: "រក្សាទុកបានហើយ ✅",
+  icon: "success"
+});
+\`\`\`
+
+🏆 *Best Practices:*
+\`\`\`javascript
+// ✅ Cache selector (លឿន)
+const $btn = $("#submitBtn"); // cache ម្តង
+$btn.click(...);
+$btn.addClass(...);
+
+// ❌ Slow (ស្វែងរក DOM ២ ដង)
+$("#submitBtn").click(...);
+$("#submitBtn").addClass(...);
+
+// ✅ Use .on() for dynamic elements
+$(document).on("click",".dynamic-btn",fn);
+
+// ✅ Minimize DOM manipulation
+let html = "";
+data.forEach(d => html += "<li>" + d + "</li>");
+$("#list").html(html); // update ម្តង!
+
+// ✅ Namespace events
+$(window).on("resize.myApp", fn);
+$(window).off("resize.myApp"); // លុបត្រឹម
+\`\`\`
+
+🎯 *jQuery vs Vanilla JS (2024):*
+\`\`\`
+jQuery ✅ ប្រើ ពេល:
+• project ចាស់ (legacy)
+• ត្រូវ support browsers ចាស់
+• ប្រើ plugins ជាច្រើន
+
+Vanilla JS ✅ ប្រើ ពេល:
+• project ថ្មី
+• performance សំខាន់
+• React/Vue/Angular project
+\`\`\`
+
+🎊 *អ្នកបញ្ចប់ jQuery Course ទាំងអស់!*
+
+📚 *Course Summary:*
+🟡 JS Basics (1–10) ✅
+🔵 React-Express (11–15) ✅
+🟢 jQuery (16–22) ✅
+
+👉 /quiz22 ប្រលង ឬ /certificate
+    `,
+    quiz: "quiz22",
+  },
+});
+
+// ══════════════════════════════════════════════════
+// JQUERY QUIZZES (HARDER — Multiple tricky options)
+// ══════════════════════════════════════════════════
+
+const jqueryQuizzes = {
+  quiz16: {
+    lessonTitle: "មេរៀនទី ១៦ – jQuery Basics",
+    question: `🧩 *កូដខាងក្រោមត្រឹមត្រូវឬទេ?*
+
+\`\`\`
+$(document).ready(function() {
+  $("p").click(function() {
+    $(this).hide();
+  });
+});
+\`\`\`
+ប្រើ \`$(this)\` នៅក្នុង jQuery handler មានន័យអ្វី?`,
+    options: [
+      "A. window object",
+      "B. document object",
+      "C. element ដែលត្រូវ event (clicked p) ",
+      "D. jQuery object ទាំងអស់",
+    ],
+    correct: "C",
+    explanation: "✅ ត្រូវ! `$(this)` ក្នុង event handler = element ដែល trigger event ។ ពេល click p, $(this) = p element នោះ!",
+    wrong: "❌ `$(this)` = element ដែល trigger event។ ពេល click p, $(this) = p element ដែលចុច (C)!",
+  },
+
+  quiz17: {
+    lessonTitle: "មេរៀនទី ១៧ – Selectors & DOM",
+    question: `🧩 *លទ្ធផលអ្វី?*
+
+\`\`\`html
+<ul id="list">
+  <li class="a">ទី ១</li>
+  <li class="b">ទី ២</li>
+  <li class="a">ទី ៣</li>
+</ul>
+\`\`\`
+\`\`\`javascript
+$("#list li.a").length
+\`\`\``,
+    options: [
+      "A. 1",
+      "B. 3",
+      "C. 2 ",
+      "D. 0",
+    ],
+    correct: "C",
+    explanation: "✅ ត្រូវ! `#list li.a` ជ្រើស li ដែល class='a' ក្នុង #list = ២ elements (ទី ១ និង ទី ៣)!",
+    wrong: "❌ `#list li.a` = li ដែលមាន class 'a' = ២ elements (ទី ១, ទី ៣)! ចម្លើយ C!",
+  },
+
+  quiz18: {
+    lessonTitle: "មេរៀនទី ១៨ – jQuery Events",
+    question: `🧩 *ហេតុអ្វី \`e.preventDefault()\` ប្រើក្នុង form submit?*
+
+\`\`\`javascript
+$("form").submit(function(e) {
+  e.preventDefault();
+  // process form...
+});
+\`\`\``,
+    options: [
+      "A. ដើម្បីបញ្ឈប់ jQuery",
+      "B. ដើម្បីបញ្ឈប់ page reload/redirect ",
+      "C. ដើម្បីលុប form data",
+      "D. ដើម្បី submit ១ ដង",
+    ],
+    correct: "B",
+    explanation: "✅ ត្រូវ! `e.preventDefault()` = បញ្ឈប់ default behavior របស់ browser (ស្ទូច form & reload page) ។ ដូច្នេះ AJAX submit អាចដំណើរការបាន!",
+    wrong: "❌ `e.preventDefault()` = ការពារ browser ពី default action (reload/redirect) (B)!",
+  },
+
+  quiz19: {
+    lessonTitle: "មេរៀនទី ១៩ – Effects & Animation",
+    question: `🧩 *Code ខាងក្រោមធ្វើអ្វី?*
+
+\`\`\`javascript
+$("#box")
+  .animate({ left: "200px" }, 400)
+  .animate({ opacity: 0 }, 600)
+  .hide();
+\`\`\``,
+    options: [
+      "A. Animation ទាំង ៣ ដំណើរការ ក្នុងពេលតែមួយ",
+      "B. ផ្លាស់ left → fade → hide តាមលំដាប់ ",
+      "C. Error ព្រោះ chain animation មិនអាច",
+      "D. hide() ដំណើរការជាមុន",
+    ],
+    correct: "B",
+    explanation: "✅ ត្រូវ! jQuery Animation Queue! animate() ដំណើរការតាមលំដាប់ (queue): left 400ms → fade 600ms → hide()!",
+    wrong: "❌ jQuery queue animations! ដំណើរការ: left 400ms → fade 600ms → hide() (B)!",
+  },
+
+  quiz20: {
+    lessonTitle: "មេរៀនទី ២០ – jQuery AJAX",
+    question: `🧩 *\`$.ajax()\` vs \`$.get()\` ខុសគ្នាម៉េច?*`,
+    options: [
+      "A. $.ajax() ប្រើ POST, $.get() ប្រើ GET",
+      "B. $.get() លឿនជាង $.ajax()",
+      "C. $.ajax() អាចគ្រប់គ្រង error, timeout, headers ច្រើនជាង ",
+      "D. ២ method ដូចគ្នា ១០០%",
+    ],
+    correct: "C",
+    explanation: "✅ ត្រូវ! `$.get()` & `$.post()` = shortcuts ដែលខ្លី។ `$.ajax()` = full control: method, headers, timeout, beforeSend, complete, error handling!",
+    wrong: "❌ `$.ajax()` = full control (error, timeout, headers)។ `$.get()` = shortcut ខ្លី (C)!",
+  },
+
+  quiz21: {
+    lessonTitle: "មេរៀនទី ២១ – DOM Manipulation Advanced",
+    question: `🧩 *ខុសគ្នារវាង \`.remove()\` & \`.empty()\`?*
+
+\`\`\`html
+<div id="box">
+  <p>Text នៅក្នុង</p>
+</div>
+\`\`\`
+\`\`\`javascript
+// A:  $("#box").remove();
+// B:  $("#box").empty();
+\`\`\``,
+    options: [
+      "A. remove() = លុប <p>, empty() = លុប #box ទាំងមូល",
+      "B. remove() = លុប #box ទាំងមូល, empty() = លុបត្រឹម <p> ខាងក្នុង ",
+      "C. ២ method ដូចគ្នា",
+      "D. remove() = hide, empty() = delete",
+    ],
+    correct: "B",
+    explanation: "✅ ត្រូវ! `.remove()` = លុប element ខ្លួនវា (#box) ។ `.empty()` = លុបត្រឹម content ខាងក្នុង (#box នៅ ប៉ុន្តែ <p> ចេញ)!",
+    wrong: "❌ `.remove()` លុប #box ទាំងមូល, `.empty()` លុបត្រឹម content ខាងក្នុង (B)!",
+  },
+
+  quiz22: {
+    lessonTitle: "មេរៀនទី ២២ – jQuery Final Challenge",
+    question: `🏆 *Challenge! Code ខាងក្រោមមាន bug!*
+
+\`\`\`javascript
+$(function() {
+  $(".btn").click(function() {
+    var text = $("input").val;  // ← បន្ទាត់នេះ
+    $("#output").text(text);
+  });
+});
+\`\`\`
+Bug គឺអ្វី?`,
+    options: [
+      "A. $(\".btn\") selectorខុស",
+      "B. $(function(){}) syntax ខុស",
+      "C. `.val` ត្រូវជា `.val()` (missing parentheses) ",
+      "D. $(\"#output\").text() ខុស",
+    ],
+    correct: "C",
+    explanation: "✅ ឆ្លាតណាស់! `.val` = property (function object) ។ `.val()` = call function ដើម្បីទទួលតម្លៃ! Bug ក្នុង jQuery ជាញឹកញាប់!",
+    wrong: "❌ Bug = `.val` គួរជា `.val()` (C)! jQuery methods ត្រូវការ () ដើម្បី execute!",
+  },
+};
+
+// Merge jQuery quizzes into main quizzes
+Object.assign(quizzes, jqueryQuizzes);
 
 module.exports = { lessons, quizzes };

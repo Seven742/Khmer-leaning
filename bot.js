@@ -22,7 +22,8 @@ const bot = new Telegraf(TOKEN);
 
 const JS_LESSONS = 10;  // Lessons 1–10  (JS Basics)
 const REACT_LESSONS = 15;  // Lessons 11–15 (React-Express)
-const TOTAL_LESSONS = REACT_LESSONS;
+const JQUERY_LESSONS = 22;  // Lessons 16–22 (jQuery)
+const TOTAL_LESSONS = JQUERY_LESSONS;
 
 // ── Helper ──────────────────────────────────────────
 async function sendMessage(ctx, text, extra = {}) {
@@ -60,11 +61,11 @@ function quizKeyboard(quizId) {
 bot.start(async (ctx) => {
   const name = ctx.from.first_name || "បន្ទុក";
   await sendMessage(ctx,
-    `🇰🇭 *សួស្តី ${name}! ស្វាគមន៍មកកាន់ Khmer Learning!*
+    `🇰🇭 *សួស្តី ${name}! ស្វាគមន៍មកកាន់ JS Bot!*
 
-🎓 *រៀន JavaScript + React-Express ជាភាសាខ្មែរ!*
+🎓 *រៀន JavaScript + jQuery ជាភាសាខ្មែរ!*
 
-📚 *Course ២ កម្រិត:*
+📚 *Course ៣ កម្រិត:*
 
 🟡 *JS Basics (Lesson 1–10):*
 Variables • Types • Loops • Functions • DOM
@@ -72,12 +73,16 @@ Variables • Types • Loops • Functions • DOM
 🔵 *React-Express (Lesson 11–15):*
 React ↔ Express • HTTP • GET/POST • Errors
 
+🟢 *jQuery (Lesson 16–22):*
+Selectors • Events • AJAX • Animation • Plugins
+
 🚀 *ចាប់ផ្តើម:* /lesson1
 📋 *Commands:* /help
 📊 *Progress:* /progress`,
     Markup.inlineKeyboard([
-      [Markup.button.callback("🚀 ចាប់ផ្តើម JS Basics", "lesson_1")],
-      [Markup.button.callback("🔵 React-Express Course", "lesson_11")],
+      [Markup.button.callback("🚀 JS Basics (L1)", "lesson_1")],
+      [Markup.button.callback("🔵 React-Express (L11)", "lesson_11")],
+      [Markup.button.callback("🟢 jQuery (L16)", "lesson_16")],
       [Markup.button.callback("📊 ពិនិត្យ Progress", "check_progress")],
     ])
   );
@@ -96,8 +101,17 @@ bot.help(async (ctx) => {
 🔵 *React-Express:*
 /lesson11 – /lesson15
 
+🟢 *jQuery:*
+/lesson16 → jQuery intro & setup
+/lesson17 → Selectors & DOM
+/lesson18 → Events
+/lesson19 → Effects & Animation
+/lesson20 → AJAX
+/lesson21 → DOM Advanced
+/lesson22 → Plugins & Best Practices
+
 📝 *Quizzes:*
-/quiz1 – /quiz15
+/quiz1 – /quiz22
 /quiz → ប្រលង JS Basics
 
 📊 *ផ្សេងទៀត:*
@@ -146,7 +160,8 @@ async function showProgress(ctx) {
   const name = ctx.from.first_name || "សិស្ស";
 
   const jsCount = p.completedLessons.filter(n => n <= JS_LESSONS).length;
-  const reactCount = p.completedLessons.filter(n => n > JS_LESSONS).length;
+  const reactCount = p.completedLessons.filter(n => n > JS_LESSONS && n <= REACT_LESSONS).length;
+  const jqueryCount = p.completedLessons.filter(n => n > REACT_LESSONS).length;
 
   const doneStr = p.completedLessons.length > 0
     ? p.completedLessons.map(n => `✅ L${n}`).join(" ")
@@ -160,8 +175,9 @@ async function showProgress(ctx) {
 ${p.bar} ${p.percent}%
 📚 *${p.done}/${TOTAL_LESSONS}* មេរៀន
 
-🟡 JS Basics: ${jsCount}/${JS_LESSONS}
+🟡 JS Basics:     ${jsCount}/${JS_LESSONS}
 🔵 React-Express: ${reactCount}/${REACT_LESSONS - JS_LESSONS}
+🟢 jQuery:        ${jqueryCount}/${JQUERY_LESSONS - REACT_LESSONS}
 
 ${doneStr}
 
@@ -189,7 +205,8 @@ bot.command("certificate", async (ctx) => {
     );
   }
 
-  const hasReact = p.done >= TOTAL_LESSONS;
+  const hasReact = p.done >= REACT_LESSONS;
+  const hasJquery = p.done >= JQUERY_LESSONS;
 
   await sendMessage(ctx,
     `🏆 *Certificate of Completion* 🏆
@@ -198,16 +215,20 @@ bot.command("certificate", async (ctx) => {
 🎓 *${name}*
 ━━━━━━━━━━━━━━━━━━━━
 
-✅ *JavaScript Basics* (10 មេរៀន)${hasReact ? "\n✅ *React ↔ Express* (5 មេរៀន)" : ""}
+✅ *JavaScript Basics* (10 មេរៀន)${hasReact ? "\n✅ *React ↔ Express* (5 មេរៀន)" : ""}${hasJquery ? "\n✅ *jQuery Complete* (7 មេរៀន)" : ""}
 
 📝 ប្រលង Accuracy: ${p.accuracy}%
 📅 ${new Date().toLocaleDateString("km-KH")}
 
 🌟 *ជំនាញ:*
 Variables • Types • Loops • Functions
-Arrays • Objects • DOM${hasReact ? "\nReact • Express • HTTP • API • Errors" : ""}
+Arrays • Objects • DOM${hasReact ? "\nReact • Express • HTTP • REST API" : ""}${hasJquery ? "\njQuery • AJAX • Animation • Plugins" : ""}
 
-🚀 *ជំហានបន្ទាប់:*${hasReact ? "\n• Node.js Advanced\n• MongoDB\n• Full-Stack Project" : "\n• React.js → /lesson11\n• Node.js\n• Full-Stack"}
+🚀 *ជំហានបន្ទាប់:*${hasJquery
+      ? "\n• TypeScript\n• Node.js Advanced\n• MongoDB + Full-Stack Project"
+      : hasReact
+        ? "\n• jQuery → /lesson16\n• TypeScript\n• Full-Stack Project"
+        : "\n• React.js → /lesson11\n• jQuery → /lesson16"}
 
 *ជោគជ័យចុះ! 🎊*`
   );
@@ -298,10 +319,11 @@ bot.on("text", async (ctx) => {
 // ═══════════════════════════════════════════════════
 bot.launch({ allowedUpdates: ["message", "callback_query"] }).then(() => {
   console.log("🤖 ===================================");
-  console.log("🇰🇭  Khmer JS + React-Express Bot RUNNING!");
+  console.log("🇰🇭  Khmer JS + React + jQuery Bot RUNNING!");
   console.log("🤖 ===================================");
   console.log(`📚 JS Basics:     Lessons 1–${JS_LESSONS}`);
-  console.log(`🔵 React-Express: Lessons 11–${TOTAL_LESSONS}`);
+  console.log(`🔵 React-Express: Lessons 11–${REACT_LESSONS}`);
+  console.log(`🟢 jQuery:        Lessons 16–${JQUERY_LESSONS}`);
   console.log(`📝 Total quizzes: ${Object.keys(quizzes).length}`);
   console.log("✅ Ready!\n");
 }).catch((err) => {

@@ -1,7 +1,7 @@
 # 🇰🇭 Khmer JavaScript Teaching Bot
 
-**បង្រៀន JavaScript ជាភាសាខ្មែរ!**
-A Telegram bot that teaches JavaScript to Khmer-speaking beginners — step by step, with quizzes and progress tracking.
+**បង្រៀន JavaScript + React-Express + jQuery ជាភាសាខ្មែរ!**
+A Telegram bot that teaches JavaScript, React-Express, and jQuery to Khmer-speaking beginners — step by step, with quizzes, progress tracking, and certificates.
 
 ---
 
@@ -9,10 +9,10 @@ A Telegram bot that teaches JavaScript to Khmer-speaking beginners — step by s
 
 | Feature | Description |
 |---|---|
-| 📚 10 Lessons | Variables → DOM Events |
-| 📝 10 Quizzes | One quiz per lesson + final exam |
+| 📚 22 Lessons | JS Basics → React-Express → jQuery |
+| 📝 23 Quizzes | One per lesson + final exam (harder difficulty) |
 | 📊 Progress Tracking | Per-user lesson & quiz scores (saved to JSON) |
-| 🏆 Certificate | Awarded after completing all 10 lessons |
+| 🏆 Certificate | Awarded after completing each course milestone |
 | 🎮 Inline Buttons | Navigate with tappable buttons |
 | 🇰🇭 Full Khmer | All explanations in Khmer language |
 
@@ -20,18 +20,42 @@ A Telegram bot that teaches JavaScript to Khmer-speaking beginners — step by s
 
 ## 📚 Lessons
 
+### 🟡 JS Basics (Lesson 1–10)
+
 | # | Topic | Command |
 |---|---|---|
 | 1 | What is JavaScript? | `/lesson1` |
 | 2 | Variables (var/let/const) | `/lesson2` |
 | 3 | Data Types | `/lesson3` |
 | 4 | Operators | `/lesson4` |
-| 5 | Conditionals (if/else) | `/lesson5` |
-| 6 | Loops | `/lesson6` |
-| 7 | Functions | `/lesson7` |
+| 5 | Conditionals (if/else/switch) | `/lesson5` |
+| 6 | Loops (for/while/for...of) | `/lesson6` |
+| 7 | Functions & Arrow Functions | `/lesson7` |
 | 8 | Arrays | `/lesson8` |
 | 9 | Objects | `/lesson9` |
-| 10 | DOM Manipulation | `/lesson10` |
+| 10 | DOM Manipulation & Events | `/lesson10` |
+
+### 🔵 React ↔ Express (Lesson 11–15)
+
+| # | Topic | Command |
+|---|---|---|
+| 11 | React & Express Overview + CORS | `/lesson11` |
+| 12 | HTTP Methods (GET/POST/PUT/DELETE) | `/lesson12` |
+| 13 | GET Request (useEffect + fetch) | `/lesson13` |
+| 14 | POST Request (form submit) | `/lesson14` |
+| 15 | Error Handling (try/catch + middleware) | `/lesson15` |
+
+### 🟢 jQuery (Lesson 16–22)
+
+| # | Topic | Command |
+|---|---|---|
+| 16 | jQuery Intro, `$`, CDN Setup | `/lesson16` |
+| 17 | Selectors, DOM, CSS, Chaining | `/lesson17` |
+| 18 | Events (click, hover, keyup, form) | `/lesson18` |
+| 19 | Effects & Animation (fade, slide, animate) | `/lesson19` |
+| 20 | AJAX (`$.ajax`, `$.get`, `$.post`) | `/lesson20` |
+| 21 | DOM Advanced (append, traverse, filter) | `/lesson21` |
+| 22 | Plugins & Best Practices | `/lesson22` |
 
 ---
 
@@ -53,7 +77,7 @@ A Telegram bot that teaches JavaScript to Khmer-speaking beginners — step by s
 ### Step 2 – Install & Configure
 
 ```bash
-# Clone or unzip the project
+# Unzip / enter the project folder
 cd khmer-js-bot
 
 # Install dependencies
@@ -84,11 +108,13 @@ npm run dev
 You should see:
 ```
 🤖 ===================================
-🇰🇭  Khmer JavaScript Bot is RUNNING!
+🇰🇭  Khmer JS + React + jQuery Bot RUNNING!
 🤖 ===================================
-📚 Total lessons: 10
-📝 Total quizzes: 10
-✅ Bot started successfully!
+📚 JS Basics:     Lessons 1–10
+🔵 React-Express: Lessons 11–15
+🟢 jQuery:        Lessons 16–22
+📝 Total quizzes: 23
+✅ Ready!
 ```
 
 ---
@@ -99,13 +125,13 @@ You should see:
 |---|---|
 | `/start` | Welcome message + quick start buttons |
 | `/help` | Full command list |
-| `/lesson1` – `/lesson10` | Load individual lessons |
-| `/quiz1` – `/quiz10` | Quiz for each lesson |
-| `/quiz` | Final quiz |
-| `/progress` | View your learning progress |
+| `/lesson1` – `/lesson22` | Load individual lessons |
+| `/quiz1` – `/quiz22` | Quiz for each lesson |
+| `/quiz` | Final JS Basics quiz |
+| `/progress` | View your learning progress (all 3 courses) |
 | `/certificate` | Get your completion certificate |
 
-**Shortcut:** Type just a number (1–10) to jump to that lesson!
+**Shortcut:** Type just a number (1–22) to jump to that lesson!
 
 ---
 
@@ -115,7 +141,7 @@ You should see:
 khmer-js-bot/
 ├── src/
 │   ├── bot.js          ← Main bot logic (commands, handlers)
-│   ├── lessons.js      ← All 10 lessons + 10 quizzes in Khmer
+│   ├── lessons.js      ← All 22 lessons + 23 quizzes in Khmer
 │   └── progress.js     ← User progress tracker
 ├── data/
 │   └── progress.json   ← Auto-created, stores user progress
@@ -127,11 +153,9 @@ khmer-js-bot/
 
 ---
 
-## ☁️ Deploy to a Server (Optional)
+## ☁️ Deploy to a Server (Keep Running 24/7)
 
-To keep the bot running 24/7, deploy to a VPS or cloud service.
-
-### Using PM2 (recommended)
+### Using PM2 (recommended for your own PC/VPS)
 ```bash
 npm install -g pm2
 pm2 start src/bot.js --name khmer-js-bot
@@ -139,19 +163,30 @@ pm2 save
 pm2 startup
 ```
 
-### Using Railway / Render / Fly.io
-1. Push to GitHub
-2. Connect your repo to Railway/Render
-3. Add `BOT_TOKEN` as an environment variable
-4. Deploy!
+Useful PM2 commands:
+```bash
+pm2 status                    # check if running
+pm2 logs khmer-js-bot         # view logs
+pm2 restart khmer-js-bot      # restart
+pm2 stop khmer-js-bot         # stop
+```
+
+### Using Railway / Render (Free cloud — runs even when PC is off)
+1. Push your code to GitHub
+2. Go to [railway.app](https://railway.app) or [render.com](https://render.com)
+3. Connect your GitHub repo
+4. Set **Start Command:** `node src/bot.js`
+5. Add environment variable: `BOT_TOKEN` = your token
+6. Deploy ✅
 
 ---
 
 ## 🛠️ Customization
 
-- **Add more lessons:** Edit `src/lessons.js` — add entries to the `lessons` object
-- **Add more quizzes:** Edit `src/lessons.js` — add entries to the `quizzes` object
+- **Add more lessons:** Edit `src/lessons.js` → add entries to the `lessons` object
+- **Add more quizzes:** Edit `src/lessons.js` → add entries to the `quizzes` object
 - **Change language:** All content is in `src/lessons.js` — easy to localize
+- **Adjust difficulty:** Edit quiz `options` and `question` fields in `src/lessons.js`
 
 ---
 
